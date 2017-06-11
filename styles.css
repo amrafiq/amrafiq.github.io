@@ -7,6 +7,7 @@ header {
     background-color: antiquewhite;
     margin-bottom: 30px;
     box-shadow: 10px 10px 5px #888888;
+    padding-bottom: 30px;
 }
 
 .container {
@@ -42,6 +43,13 @@ header {
     border-radius: 3px;
     box-shadow: 3px 3px 3px 3px rgba(43, 43, 77, 0.5);
 }
+/*
+.nav_menu li a:hover {
+    background-color: burlywood
+    -webkit-transform: scale(2,2);
+    -ms-transform: scale(2,2);
+    transform: scale(2,2);
+}*/
 
 .nav_menu a {
     display: block;
@@ -71,18 +79,39 @@ header {
         float: left;
         padding: 15px;
         width: 20%;
-        margin-bottom: 50px;
+        margin-bottom: 30px;
         box-shadow: 10px 10px 5px #888888;
 
     }
 
  #leftDiv {
         background-color: antiquewhite;
+        float: left;
+        width: 40%;
+        height: 200px;
+        padding: 10px;
+        border: 2px solid;
         box-shadow: 10px 10px 5px #888888;
-
+        margin: 20px;
     }
 
  #rightDiv {
         background-color: antiquewhite;
+        float: left;
+        width: 40%;
+        height: 200px;
+        padding: 10px;
+        border: 2px solid;
         box-shadow: 10px 10px 5px #888888;
+        margin: 20px;
     }
+
+footer {
+    height: 50px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding-right: 20px;
+    padding-top: 15px;        
+    box-shadow: 10px 10px 5px #888888;
+}
