@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Starter Template for Bootstrap 3.3.7</title>
+    <title>Ali Muhammad Rafiq - Contact</title>
     <link rel="shortcut icon" href="">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
@@ -27,13 +27,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Project name</a>
+                <a class="navbar-brand" href="#">Ali Muhammad Rafiq</a>
             </div>
 
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                       <li><a href="index.html">Home</a></li>
-                    <li><a href="index.html">Home</a></li>
                     <li><a href="projects.html">Projects</a></li>
                     <li class="active"><a href="#">Contact</a></li>
                 </ul>
@@ -44,7 +43,37 @@
     <div class="container">
         <div class="starter-template">
             <form id="contact" name="contact" method="post" action="PostEmail.php"><fieldset>
-            <legend>Contact</legend>
+            <legend>Contact Ali</legend>
+                
+                <table>
+                    <tr>
+                    <td><label for="Subject">Subject</label></td>
+                    <td><input type="text" name="Subject" id="Subject" placeholder="Enter Subject" autofocus="autofocus" /></td>
+                    </tr>
+                    
+                    
+                    <tr>
+                    <td><label for="Name">Name</label></td>
+                    <td><input type="text" name="Name" id="Name" placeholder="Enter Name" autofocus="autofocus" /></td>
+                    </tr>
+                    
+                    <tr>
+                        <td><label for ="Email">Email</label></td>
+                        <td><input type ="email" name="Email" id="Email" placeholder="Enter Email Address" /></td>
+                    </tr>
+                    
+                    <tr>
+                        <td><lable for ="Message">Message</lable></td>
+                        <td><textarea name="Message" id="Message" cols="45" rows="5" placeholder="Enter your message"></textarea></td>
+                    </tr>
+                    
+                    <tr>
+                    <td></td>
+                    <td><input type="reset" name="Reset" id="Reset" value="Reset" />
+                        <input type="Submit" name="Send" id="Send" value="Submit"/></td>
+                    </tr>
+                
+                </table>
             </fieldset></form>
         </div>
     </div>
