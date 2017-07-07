@@ -16,7 +16,7 @@
     
     mail($myEmailAddress, $name, $subject, $message, $header);
 ?>
-    
+     
     <p>Thanks!</p>
 </body>
 </html>
