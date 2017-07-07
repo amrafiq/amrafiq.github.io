@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="bsStyles.css"s>
     <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}</style>
 
     <!--[if IE]>
@@ -33,8 +34,9 @@
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div><!--.nav-collapse -->
         </div>
@@ -45,12 +47,13 @@
         <div class="starter-template">
             <div id "logo"><a href="#"><img src ="logo.jpg"  width="200" height="200" ></a></div>
             <h1>Hello, world!</h1>
-            <p class="lead">Welcome to my portfolio!</p>
+            <p class="lead">Welcome to my portfolio! Are you just here to see my projects? Then click the button below!</p>
+            <p><a class="btn btn-primary btn-lg" href="projects.html" role="button">My Projects</a></p>
         </div>
         </div>
             <div class="row">
                 
-                <div class="col-sm-6">
+                <div class="col-sm-6" id ="leftDiv">
          <p>Coding since I was 12-years-old, I have been a developer for over 10 years now. During that time, I've worked on creating personal projects and apps. 
 
         I'm fascinated by data science and machine learning. Feel free to contact me at amrafiq@asu.edu or view my projects on github.com/amrafiq</p>
@@ -58,8 +61,8 @@
         <p>Languages: C++, Java, Python 
         Technologies: HTML, CSS, Javascript</p></div>
 
-        <div class="col-sm-6">
-           <p>This website was written using Javascript, HTML, and CSS.</p>                  
+        <div class="col-sm-6" id = "rightDiv">
+           <p>This website was written using Javascript, HTML, bootstrap and CSS.</p>                  
                              
         </div>
         </div>
