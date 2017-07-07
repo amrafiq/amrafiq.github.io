@@ -14,7 +14,7 @@
     $message = $_POST['Message'];
     $header = "from: $name <$email>";
     
-    $mail($myEmailAddress, $name, $subject, $message, $header);
+    mail($myEmailAddress, $name, $subject, $message, $header);
 ?>
      
     <p>Thanks!</p>
