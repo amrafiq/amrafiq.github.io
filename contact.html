@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
     <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}</style>
 
+
     <!--[if IE]>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -44,7 +45,10 @@
         <div class="starter-template">
             <form id="contact" name="contact" method="post" action="PostEmail.php"><fieldset>
             <legend>Contact Ali</legend>
-                
+             
+            <form action="http://formspree.io/amrafiq@asu.edu"><input type="email" name="_replyto"><textarea   name="body"></textarea><input type="submit" value="Send">
+
+
                 <table>
                     <center>
                     <tr>
@@ -71,8 +75,7 @@
                     <tr>
                     <td></td>
                     <td><input type="reset" name="Reset" id="Reset" value="Reset" />
-                        <!--<input type="Submit" name="Send" id="Send" value="Submit"/></td>-->
-                        <p>Form submissions are currently disabled as GitHub Pages is static. Feel free to email me at amrafiq@asu.edu</p>
+                        <input type="Submit" name="Send" id="Send" value="Submit"/></td>
                     </tr>
                 </center>
                 </table>
