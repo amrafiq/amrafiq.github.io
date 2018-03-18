@@ -46,28 +46,28 @@
             <legend>Contact Ali</legend>
              
 
-            <form action="http://formspree.io/amrafiq@asu.edu" method="POST">
+<form name="gform" id="gform" enctype="text/plain" action="https://docs.google.com/forms/d/e/1FAIpQLScMxGXOaienv2hC4kCI3qc7CQ279UuqpuTF4EZpmhWIFn02yA/viewform?usp=pp_url&entry.174133220&entry.1493893864&entry.130715347&entry.736555432" target="hidden_iframe" onsubmit="submitted=true;">
                 <table>
                     <center>
                     <tr>
                     <td><label for="Subject">Subject</label></td>
-                    <td><input type="text" name="Subject" id="Subject" placeholder="Enter Subject" autofocus="autofocus" /></td>
+                    <td><input type="text" name="entry.174133220" id="entry.174133220" placeholder="Enter Subject" autofocus="autofocus" /></td>
                     </tr>
                     
                     
                     <tr>
                     <td><label for="Name">Name</label></td>
-                    <td><input type="text" name="Name" id="Name" placeholder="Enter Name" autofocus="autofocus" /></td>
+                    <td><input type="text" name="entry.1493893864" id="entry.1493893864" placeholder="Enter Name" autofocus="autofocus" /></td>
                     </tr>
                     
                     <tr>
                         <td><label for ="Email">Email</label></td>
-                        <td><input type ="email" name="Email" id="Email" placeholder="Enter Email Address" /></td>
+                        <td><input type ="email" name="entry.130715347" id="entry.130715347" placeholder="Enter Email Address" /></td>
                     </tr>
                     
                     <tr>
                         <td><label for ="Message">Message</label></td>
-                        <td><textarea name="Message" id="Message" cols="45" rows="5" placeholder="Enter your message"></textarea></td>
+                        <td><textarea name="entry.736555432" id="entry.736555432" cols="45" rows="5" placeholder="Enter your message"></textarea></td>
                     </tr>
                     
                     <tr>
@@ -78,6 +78,18 @@
                 </center>
                 </table>
             </form>
+
+            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {}"></iframe>
+
+<script src="assets/js/jquery.min.js"></script>
+<script type="text/javascript">var submitted=false;</script>
+<script type="text/javascript">
+$('#gform').on('submit', function(e) {
+  $('#gform *').fadeOut(2000);
+  $('#gform').prepend('Your submission has been processed...');
+  });
+</script>
+
         </div>
     </div>
 
