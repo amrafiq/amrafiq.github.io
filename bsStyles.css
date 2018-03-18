@@ -9,3 +9,7 @@
     max-width: 100px;
     float:right;
 }
+
+#content img {
+	float: left;
+}
