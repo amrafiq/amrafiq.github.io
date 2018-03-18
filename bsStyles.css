@@ -9,11 +9,3 @@
     max-width: 100px;
     float:right;
 }
-
-#content .col {
-	float: left;
-}
-
-#footer {
-  clear: left;
-}
