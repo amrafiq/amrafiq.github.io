@@ -10,6 +10,10 @@
     float:right;
 }
 
-#content img {
+#content .col {
 	float: left;
+}
+
+#footer {
+  clear: left;
 }
