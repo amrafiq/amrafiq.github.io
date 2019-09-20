@@ -61,9 +61,34 @@
    
    <p>Having a monolithic architecture has some disadvantages because of this. 
       <p>It makes it difficult to deploy big applications: deploying to one small module can cause havoc as you need to test the entire application before you deploy to ensure nothing has broken or a new bug has been introduced.
-         Scalability: some sites have traffic spikes. E.g. during holidays, e-commerce websites have a spike in traffic. Servers are increased when traffic increases and servers are reduced when traffic has reduced.
+         Scalability: some sites have traffic spikes. E.g. during holidays, e-commerce websites have a spike in traffic. Servers are increased when traffic increases and servers are reduced when traffic has reduced.</p> 
+         
+         <img src="scalability.png" alt="As traffic increases, servers increase">
+         
+         But imagine an entire e-commerce website deployed as one large application. When the servers scale up, other functionalities that aren't being used are being scaled up as well when only a small portion needed to be scaled up. Money is wasted here as only a small portion needed to be scaled up during high traffic.</p>
    
+   <img src="extraservers.png" alt="As traffic increases, servers increase">
+         
+         <p>Here is an idea. Rather than having the entire application on one monolith. Why not deploy the application into smaller mini-applications. Then you can deploy these mini applications on different machines and have to talk to each other on the network.</p>
+            
+            <p>Each server has a seperate part of the website deployed as a seperate application. In an e-commerce website, the mini-applications talk to each other. Such as the shopping catalog talking to the web view app.</p>
+         
+         <img src="microservices.png" alt="Smaller apps talking to each other">
+               
+               <p>Each micro service can talk to each other over REST APIs in different languages and functionality of product. You now have several individual applications that do a small thing each, but act as one large application.</p>
+            
+            <img src="restapi.png" alt="They talk to each other through REST APIs">
+                  
+                  <p>Advantages:</p>
+                  <p>-Deployment flexibility</p>
+                  <p>-Technology flexibility</p>
+                   <p>-Can be scaled seperately</p>
    
+   <p>Disvantages:</p>
+      <p>-Deployment / architecture complexity</p>
+      <p>-Service discovery</p>
+   
+   <p>In closing, obviously there isn't a right or wrong way to deploy microservices and they're not better than monolithic services. Each time should evaluate when it should make sense to use a microservices architecture vs. something else.</p>
 
    
 </div>
