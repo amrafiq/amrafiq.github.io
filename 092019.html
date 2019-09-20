@@ -37,30 +37,30 @@
 
 <p>I'd like to acknowledge <a href="https://javabrains.io/">Java Brains</a> and <a href="https://courses.telusko.com/">Telusko</a> for helping me grasp microservices as well being the backbone of the development this post.</p>
 
-<p>Back in the old days, before microservices, programs resided on the clients machine. When programmers wrote code for a client, it would be compiled down to the clients computer. As functionality was created, large complex code bases were created. As in, once a version of a software created, clients would install that version of the application onto their devices.</p>
+<p>Back in the old days, before microservices, programs resided on the clients machine. When programmers wrote code for a client, it would be compiled down to the clients computer. As functionality was created, large complex code bases were created. As in, once a version of a software was created, clients would install that version of the application onto their devices.</p>
    
 <img src="old.png" alt="Back in the old days">
    
-<p>Eventually, programmers were asked to create smaller modules, small independent parts, these modules are reusable and can be used on another application. Again, all of these smaller modules are one application and eventually, one large application of everything smushed together and is the final entity is deployed on one machine anyway. This is how it used to work on desktop applications.</p>
+<p>Eventually, programmers were asked to create smaller modules, small independent parts, these modules are reusable and can be used on another application. Again, all of these smaller modules are one application and eventually, one large application of everything smushed together and is the final entity that is deployed on one machine for desktop applications.</p>
 
 <img src="notsoold.png" alt="Modular application development">
    
- <p>Then came along two developments: web applications. People started moving away from applications that needed to be installed on their machines to applications that can be installed on a remote machine.</p>
+ <p>Then came along newer developments: web applications. People started moving away from applications that needed to be installed on their machines to applications that can be installed on a remote machine.</p>
 
 <img src="remote.png" alt="Drake approves of server-side apps">
    
-<p>This meant, you from your machine can access the application from your machine. The server will prepare the HTML and display the application on your device while it is deployed on the server.</p>
+<p>This meant your machine can access the application without having to install it onto the machine. The server will prepare the HTML and display the application on your device while it is deployed on the server.</p>
    
 <img src="serverside.png" alt="Just deploy to the server">
    
-<p>Instead of developers installing application to each users machine, they just install the application to one server. This is awesome because everyone gets automatic updates.</p>
+<p>Instead of developers installing applications to each users machine, they just install the application to one server. This is awesome because everyone gets automatic updates.</p>
    
    <p>Rather than deploying all the smush into one users device, it is deployed onto a server.</p>
    
    <p>Overtime, web applications have become bigger, better, more efficient. They are search engines, file storage apps, large e-commerce apps, and search engines.</p>
    
-   <p>Having a monolithic architecture has some disadvantages because of this. 
-      <p>It makes it difficult to deploy big applications: deploying to one small module can cause havoc as you need to test the entire application before you deploy to ensure nothing has broken or a new bug has been introduced.
+   <p>Having a monolithic architecture has some disadvantages because of this.</p>
+      <p>-It makes it difficult to deploy big applications: deploying one small module can cause havoc as you need to test the entire application before you deploy to ensure nothing has broken or a new bug hasn't been introduced.
          Scalability: some sites have traffic spikes. E.g. during holidays, e-commerce websites have a spike in traffic. Servers are increased when traffic increases and servers are reduced when traffic has reduced.</p> 
          
          <img src="scalability.png" alt="As traffic increases, servers increase">
@@ -69,7 +69,7 @@
    
    <img src="extraservers.png" alt="As traffic increases, servers increase">
          
-         <p>Here is an idea. Rather than having the entire application on one monolith. Why not deploy the application into smaller mini-applications. Then you can deploy these mini applications on different machines and have to talk to each other on the network.</p>
+         <p>Here is an idea. Rather than having the entire application on one monolith. Why not deploy the application into smaller mini-applications. Then you can deploy these mini applications on different machines and they can talk to each other on the network.</p>
             
             <p>Each server has a seperate part of the website deployed as a seperate application. In an e-commerce website, the mini-applications talk to each other. Such as the shopping catalog talking to the web view app.</p>
          
@@ -88,31 +88,31 @@
       <p>-Deployment / architecture complexity</p>
       <p>-Service discovery</p>
    
-   <p>Obviously there isn't a right or wrong way to deploy microservices and they're not better than monolithic services. Each time should evaluate when it should make sense to use a microservices architecture vs. something else.</p>
+   <p>Obviously there isn't a right or wrong way to deploy microservices and they're not better than monolithic services. Each team and company should evaluate when it should make sense to use a microservices architecture vs. monolithic.</p>
 
    <p>Let's discuss Representational state transfer (REST) now.</p>
    
-   <p>Let's say we have a weather reporting application that we have developed for your phone. We want to be able to report the weather for all the major cities across the globe.</p>
+   <p>Let's say we have a weather reporting application that we have developed as a cellphone application. We want to be able to report the weather for all the major cities across the globe.</p>
    
    <p>Now getting the weather of all the major cities would require setting up a sensor in each of those cities. This will cost billions of dollars. Now that means, we need to gather all this data from somewhere.</p>
    
    <p>Thankfully, there are dynamic servers that have this data already gathered for us. They have the data that we need.</p>
    
-   <p>The dynamic servers are ready to give us the data. We just need to use an API to connect us to that server. We need to know how many services the server provides and who we are to the server.</p>
+   <p>The dynamic servers are ready to give us the data. We just need to use an API to connect us to that server. We need to know how many services the server provides and the server needs to know who we aer.</p>
    
-   <p>There will be a servlet on the server that will give us the data. We make a request for the servlet and it will give us the data. This can be a response in HTML or XML/JSON format.
+   <p>Servlets: there will be a servlet on the server that will give us the data. We make a request for the servlet and it will give us the data. This can be a response in HTML or XML/JSON format.
    
    <img src="servlets.png" alt="Our servlet provides us with XML/JSON response">
       
-   <p>We can also, instead, create an object and return the object instead. We are converting an object into a state, or representatal state transfer using JSON or XML.</p>
+   <p>We can also, instead, create an object and return the object. We are converting an object into a state, or representatal state transfer using JSON or XML.</p>
       
    <img src="object.png" alt="Our servlet provides us with XML/JSON response">   
    
    <p>Finally, let's discus the operations that we use. Tradionally, we have used CRUD (Create Read Update Delete).</p>
    
-   <p>So before, if I wanted to add two numbers, I would use the follow the following HTML request: amrafiq.github.io/add?num1=2&num2=4</p>
+   <p>So before, if I wanted to add two numbers, I would use the following HTML request: amrafiq.github.io/add?num1=2&num2=4</p>
    
-   <p>Instead, we can now use an object: amrafiq.github.io/questions?subject=answers so instead now, we are fetching a resource. We are now fetching data as it is. As a client you don't know what is happening on the server. Instead, you are just getting your response back.,/p>
+   <p>Instead, we can now use an object: amrafiq.github.io/questions?subject=answers so instead, we are fetching a resource or we are now fetching data as it is. As a client you don't know what is happening on the server. Instead, you are just getting your response back./p>
       
    <p>C --> Create --> POST
    <p>R --> Read --> GET
