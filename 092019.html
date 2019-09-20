@@ -39,19 +39,19 @@
 
 <p>Back in the old days, before microservices, programs resided on the clients machine. When programmers wrote code for a client, it would be compiled down to the clients computer. As functionality was created, large complex code bases were created. As in, once a version of a software was created, clients would install that version of the application onto their devices.</p>
    
-<img src="old.png" alt="Back in the old days">
+<img src="old.png" alt="Back in the old days" width="500" height="250">
    
 <p>Eventually, programmers were asked to create smaller modules, small independent parts, these modules are reusable and can be used on another application. Again, all of these smaller modules are one application and eventually, one large application of everything smushed together and is the final entity that is deployed on one machine for desktop applications.</p>
 
-<img src="notsoold.png" alt="Modular application development">
+<img src="notsoold.png" alt="Modular application development" width="500" height="250">
    
  <p>Then came along newer developments: web applications. People started moving away from applications that needed to be installed on their machines to applications that can be installed on a remote machine.</p>
 
-<img src="remote.png" alt="Drake approves of server-side apps">
+<img src="remote.png" alt="Drake approves of server-side apps" width="500" height="250">
    
 <p>This meant your machine can access the application without having to install it onto the machine. The server will prepare the HTML and display the application on your device while it is deployed on the server.</p>
    
-<img src="serverside.png" alt="Just deploy to the server">
+<img src="serverside.png" alt="Just deploy to the server" width="500" height="250">
    
 <p>Instead of developers installing applications to each users machine, they just install the application to one server. This is awesome because everyone gets automatic updates.</p>
    
@@ -63,21 +63,21 @@
       <p>-It makes it difficult to deploy big applications: deploying one small module can cause havoc as you need to test the entire application before you deploy to ensure nothing has broken or a new bug hasn't been introduced.
          Scalability: some sites have traffic spikes. E.g. during holidays, e-commerce websites have a spike in traffic. Servers are increased when traffic increases and servers are reduced when traffic has reduced.</p> 
          
-         <img src="scalability.png" alt="As traffic increases, servers increase">
+         <img src="scalability.png" alt="As traffic increases, servers increase" width="500" height="250">
          
          But imagine an entire e-commerce website deployed as one large application. When the servers scale up, other functionalities that aren't being used are being scaled up as well when only a small portion needed to be scaled up. Money is wasted here as only a small portion needed to be scaled up during high traffic.</p>
    
-   <img src="extraservers.png" alt="As traffic increases, servers increase">
+   <img src="extraservers.png" alt="As traffic increases, servers increase" width="500" height="250">
          
          <p>Here is an idea. Rather than having the entire application on one monolith. Why not deploy the application into smaller mini-applications. Then you can deploy these mini applications on different machines and they can talk to each other on the network.</p>
             
             <p>Each server has a seperate part of the website deployed as a seperate application. In an e-commerce website, the mini-applications talk to each other. Such as the shopping catalog talking to the web view app.</p>
          
-         <img src="microservices.png" alt="Smaller apps talking to each other">
+         <img src="microservices.png" alt="Smaller apps talking to each other" width="500" height="250">
                
                <p>Each micro service can talk to each other over REST APIs in different languages and functionality of product. You now have several individual applications that do a small thing each, but act as one large application.</p>
             
-            <img src="rest_api.png" alt="They talk to each other through REST APIs">
+            <img src="rest_api.png" alt="They talk to each other through REST APIs" width="500" height="250">
                   
                   <p>Advantages:</p>
                   <p>-Deployment flexibility</p>
@@ -102,11 +102,11 @@
    
    <p>Servlets: there will be a servlet on the server that will give us the data. We make a request for the servlet and it will give us the data. This can be a response in HTML or XML/JSON format.
    
-   <img src="servlets.png" alt="Our servlet provides us with XML/JSON response">
+   <img src="servlets.png" alt="Our servlet provides us with XML/JSON response" width="500" height="250">
       
    <p>We can also, instead, create an object and return the object. We are converting an object into a state, or representatal state transfer using JSON or XML.</p>
       
-   <img src="object.png" alt="Our servlet provides us with XML/JSON response">   
+   <img src="object.png" alt="Our servlet provides us with XML/JSON response" width="500" height="250">   
    
    <p>Finally, let's discus the operations that we use. Tradionally, we have used CRUD (Create Read Update Delete).</p>
    
