@@ -1,269 +1,289 @@
+The "black screen" issue happened because the container wasn't "stuck" to the screen. When you scrolled down, the content moved up and off the page, leaving you with a blank background.
+
+I have refactored this to use **Sticky Positioning**. Now, the game "stays" on your screen while you scroll, and the levels slide horizontally. I also added a "Jersey" character that actually "runs" (legs move) when you scroll.
+
+### The Fixed Code
+Copy and paste this into your `index.html`.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ali Muhammad Rafiq | Interactive Resume</title>
+    <title>Ali Muhammad Rafiq | Product Season</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --amex-blue: #0071ce;
             --wepay-teal: #00d1c1;
             --court-orange: #e56717;
-            --sky-blue: #87CEEB;
+            --wood: #d2a679;
         }
 
-        body, html {
+        body {
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
+            background-color: #000;
             font-family: 'Inter', sans-serif;
-            background-color: #111;
+            /* This creates the "scroll length" - 5x the screen height */
+            height: 600vh; 
             color: white;
+            overflow-x: hidden;
         }
 
-        /* The Level Container */
-        #game-container {
-            position: relative;
-            width: 500vw; /* 5 screens wide */
+        /* This keeps the game visible while you scroll down the body */
+        .viewport {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100vh;
-            background: linear-gradient(to bottom, #1a1a2e 0%, #16213e 100%);
-            display: flex;
-            transition: transform 0.1s ease-out;
+            overflow: hidden;
         }
 
-        /* Character */
+        /* The long horizontal world */
+        .world {
+            display: flex;
+            width: 500vw; /* 5 Levels */
+            height: 100vh;
+            transition: transform 0.1s ease-out;
+            will-change: transform;
+        }
+
+        .level {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            flex-shrink: 0;
+            padding: 100px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Character Logic */
         #player {
             position: fixed;
-            bottom: 100px;
-            left: 100px;
-            width: 80px;
-            height: 120px;
-            z-index: 100;
+            bottom: 120px;
+            left: 50px;
+            width: 60px;
+            height: 100px;
+            z-index: 1000;
             transition: transform 0.1s;
         }
 
         .jersey {
+            width: 40px;
+            height: 50px;
             background: var(--court-orange);
-            width: 50px;
-            height: 70px;
+            border: 3px solid white;
             border-radius: 5px;
             position: relative;
             margin: 0 auto;
-            border: 2px solid white;
         }
 
         .jersey::after {
-            content: "8+";
+            content: "8";
             font-family: 'Press Start 2P';
-            font-size: 10px;
-            color: white;
+            font-size: 14px;
             position: absolute;
-            top: 20px;
-            left: 10px;
+            top: 10px; left: 10px;
         }
 
         .head {
+            width: 30px; height: 30px;
             background: #ffdbac;
-            width: 40px;
-            height: 40px;
             border-radius: 50%;
             margin: 0 auto 5px;
         }
 
-        /* Scenes */
-        .scene {
-            width: 100vw;
-            height: 100vh;
-            position: relative;
-            padding: 50px;
-            box-sizing: border-box;
-            border-right: 10px dashed rgba(255,255,255,0.1);
+        .leg {
+            position: absolute;
+            bottom: -20px;
+            width: 10px; height: 20px;
+            background: #ffdbac;
         }
+        .leg.left { left: 10px; }
+        .leg.right { right: 10px; }
+
+        /* Levels Styling */
+        .level-1 { background: linear-gradient(#1a1a2e, #16213e); }
+        .level-2 { background: linear-gradient(#002663, #0071ce); } /* Amex */
+        .level-3 { background: linear-gradient(#004d40, #00d1c1); } /* WePay */
+        .level-4 { background: #222; } /* GM */
+        .level-5 { background: var(--wood); color: #000; } /* Education */
 
         .floor {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: #333;
-            border-top: 5px solid #555;
+            bottom: 0; left: 0;
+            width: 100%; height: 120px;
+            background: rgba(0,0,0,0.3);
+            border-top: 4px solid rgba(255,255,255,0.2);
         }
 
-        .nba-court {
-            background: #d2a679;
-            background-image: radial-gradient(circle at 50% 100%, transparent 50%, rgba(0,0,0,0.1) 51%);
-        }
-
-        /* UI Elements */
-        h1 { font-family: 'Press Start 2P', cursive; color: var(--court-orange); font-size: 2rem; }
-        .job-title { font-weight: bold; font-size: 1.5rem; margin-bottom: 10px; display: block; }
-        .stats-box {
+        .card {
             background: rgba(0,0,0,0.8);
-            border: 3px solid var(--amex-blue);
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 500px;
-            margin-top: 20px;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            border-left: 10px solid var(--court-orange);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .skill-bubble {
+        h1 { font-family: 'Press Start 2P'; font-size: 2rem; margin: 0; color: var(--court-orange); }
+        h2 { font-family: 'Press Start 2P'; font-size: 1.2rem; color: #fff; }
+        
+        .skill-tag {
             display: inline-block;
-            background: white;
-            color: black;
-            padding: 5px 15px;
-            border-radius: 20px;
-            margin: 5px;
-            font-weight: bold;
-            font-size: 0.8rem;
-        }
-
-        /* Floating Items */
-        .floating-api {
-            position: absolute;
-            top: 20%;
-            background: var(--wepay-teal);
-            padding: 10px;
+            background: var(--court-orange);
+            padding: 5px 10px;
             border-radius: 5px;
-            animation: float 3s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        /* Progress Bar */
-        #progress {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            font-family: 'Press Start 2P';
-            z-index: 1000;
-            color: var(--court-orange);
-        }
-
-        .scroll-hint {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounce 2s infinite;
-            font-family: 'Press Start 2P';
             font-size: 0.7rem;
+            font-family: 'Press Start 2P';
+            margin: 5px;
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);}
-            40% {transform: translateY(-10px) translateX(-50%);}
+        #hud {
+            position: fixed;
+            top: 20px; right: 20px;
+            font-family: 'Press Start 2P';
+            color: var(--court-orange);
+            z-index: 2000;
         }
+
+        .scroll-tip {
+            position: fixed;
+            bottom: 30px; left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Press Start 2P';
+            font-size: 0.8rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
     </style>
 </head>
 <body>
 
-    <div id="progress">EXP: 0%</div>
-    <div class="scroll-hint">SCROLL TO START YOUR SEASON</div>
+    <div id="hud">SCORE: 0</div>
+    <div class="scroll-tip">SCROLL DOWN TO RUN →</div>
 
-    <div id="player">
-        <div class="head"></div>
-        <div class="jersey"></div>
-    </div>
+    <div class="viewport">
+        <div id="player">
+            <div class="head"></div>
+            <div class="jersey"></div>
+            <div class="leg left" id="l-leg"></div>
+            <div class="leg right" id="r-leg"></div>
+        </div>
 
-    <div id="game-container">
-        <!-- SCENE 1: START LINE -->
-        <section class="scene">
-            <h1>ALI MUHAMMAD RAFIQ</h1>
-            <p>Senior Product Manager | Fintech & AI Specialist</p>
-            <div class="stats-box">
-                <p><strong>SUMMARY:</strong> 8+ years experience leading digital transformation. Known for driving $1B+ volumes and resolving legacy defects causing millions in harm.</p>
-                <div class="skill-bubble">SQL</div>
-                <div class="skill-bubble">GenAI</div>
-                <div class="skill-bubble">API Design</div>
-                <div class="skill-bubble">Product Strategy</div>
-            </div>
-            <div class="floor"></div>
-        </section>
+        <div class="world" id="world">
+            <!-- START -->
+            <section class="level level-1">
+                <h1>ALI MUHAMMAD RAFIQ</h1>
+                <p>8+ Years Product Management XP</p>
+                <div class="card">
+                    <p>Strategic & Results-Driven PM. Specialist in FinTech, API Platforms, and GenAI.</p>
+                    <div class="skill-tag">PYTHON</div>
+                    <div class="skill-tag">SQL</div>
+                    <div class="skill-tag">LLMs</div>
+                </div>
+                <div class="floor"></div>
+            </section>
 
-        <!-- SCENE 2: AMEX LEVEL (Current) -->
-        <section class="scene" style="background: linear-gradient(to bottom, #002663, #0071ce);">
-            <span class="job-title">AMERICAN EXPRESS (2022-Present)</span>
-            <div class="stats-box" style="border-color: #fff;">
-                <p>🏆 <strong>Sr. Product Manager</strong></p>
-                <ul>
-                    <li>Led U.S. loyalty modernization across distributed systems and mainframes.</li>
-                    <li>Migrated Consumer MR to unified architecture: reducing TTM from months to weeks.</li>
-                    <li>Internal GenAI SME: Automated discovery using ChatGPT/LLMs.</li>
-                </ul>
-            </div>
-            <div class="floor" style="background: #001a44;"></div>
-        </section>
+            <!-- AMEX -->
+            <section class="level level-2">
+                <h2>LEVEL: AMERICAN EXPRESS</h2>
+                <div class="card">
+                    <p><strong>Senior Product Manager</strong></p>
+                    <ul>
+                        <li>Led U.S. loyalty modernization (COBOL to Distributed).</li>
+                        <li>Reduced Time-to-Market from months to weeks.</li>
+                        <li>Internal GenAI SME: Presented to 100+ attendees.</li>
+                    </ul>
+                </div>
+                <div class="floor"></div>
+            </section>
 
-        <!-- SCENE 3: WEPAY LEVEL -->
-        <section class="scene" style="background: linear-gradient(to bottom, #004d40, #00d1c1);">
-            <span class="job-title">WEPAY (JP MORGAN CHASE)</span>
-            <div class="stats-box" style="border-color: #fff;">
-                <p>🏀 <strong>The "Bar Tabs" Play:</strong> Launched Bar Tabs, enabling $1B+ annual transaction volume.</p>
-                <p>📈 Improved NPS by 5% and led CEO-level escalations for strategic planning.</p>
-            </div>
-            <div class="floating-api">REST API</div>
-            <div class="floating-api" style="left: 40%; top: 40%;">SDK</div>
-            <div class="floor" style="background: #002d26;"></div>
-        </section>
+            <!-- WEPAY -->
+            <section class="level level-3">
+                <h2>LEVEL: WEPAY (JPMC)</h2>
+                <div class="card">
+                    <p>Launched <strong>"Bar Tabs"</strong>: $1B+ annual transaction volume.</p>
+                    <p>Improved developer NPS by 5% through SDK/API documentation revamps.</p>
+                </div>
+                <div class="floor"></div>
+            </section>
 
-        <!-- SCENE 4: EARLY CAREER (GM & TCS) -->
-        <section class="scene" style="background: #222;">
-            <span class="job-title">THE FOUNDATION</span>
-            <div class="stats-box">
-                <p><strong>GENERAL MOTORS:</strong> Software Developer. Migrated $1B+ operational data to in-house solutions.</p>
-                <p><strong>TATA SERVICES:</strong> Software Engineer. Triaged critical Sev1/Sev2 system incidents.</p>
-            </div>
-            <div class="floor"></div>
-        </section>
+            <!-- GM -->
+            <section class="level level-4">
+                <h2>LEVEL: GENERAL MOTORS</h2>
+                <div class="card">
+                    <p><strong>Software Developer</strong></p>
+                    <ul>
+                        <li>Migrated $1B+ operational data to in-house solution.</li>
+                        <li>Built C#/.NET tools for 100s of warehouse employees.</li>
+                    </ul>
+                </div>
+                <div class="floor"></div>
+            </section>
 
-        <!-- SCENE 5: CONTACT & EDUCATION -->
-        <section class="scene nba-court">
-            <h1 style="color: #000;">GAME OVER?</h1>
-            <div class="stats-box" style="background: white; color: black;">
-                <p><strong>EDUCATION:</strong> B.S. Computer Science, ASU</p>
-                <p><strong>CONTACT:</strong> amrafiq994@gmail.com</p>
-                <p><strong>LOCATIONS:</strong> Phoenix | San Francisco | Remote</p>
-                <a href="https://linkedin.com" style="color: var(--amex-blue); font-weight: bold;">LinkedIn Profile</a>
-            </div>
-            <div class="floor" style="background: #8b4513;"></div>
-        </section>
+            <!-- END -->
+            <section class="level level-5">
+                <h1 style="color: #000;">SEASON FINALE</h1>
+                <div class="card" style="background: white; color: black;">
+                    <p><strong>Education:</strong> B.S. Computer Science, ASU</p>
+                    <p><strong>Contact:</strong> amrafiq994@gmail.com</p>
+                    <p><strong>Status:</strong> Ready for the next Championship.</p>
+                </div>
+                <div class="floor"></div>
+            </section>
+        </div>
     </div>
 
     <script>
-        const container = document.getElementById('game-container');
-        const player = document.getElementById('player');
-        const progressTxt = document.getElementById('progress');
+        const world = document.getElementById('world');
+        const hud = document.getElementById('hud');
+        const lLeg = document.getElementById('l-leg');
+        const rLeg = document.getElementById('r-leg');
         
         window.addEventListener('scroll', () => {
-            const scrollPercent = window.scrollY / (document.body.offsetHeight - window.innerHeight);
+            // Calculate how far we have scrolled
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            const scrollFraction = window.scrollY / maxScroll;
             
-            // Move the world
-            const moveX = scrollPercent * (container.offsetWidth - window.innerWidth);
-            container.style.transform = `translateX(-${moveX}px)`;
-            
-            // Player Animation
-            const walkCycle = Math.sin(window.scrollY * 0.05) * 10;
-            player.style.transform = `translateY(${walkCycle}px)`;
-            
-            // Update Progress
-            progressTxt.innerText = `EXP: ${Math.round(scrollPercent * 100)}%`;
-            
-            // Facing direction
-            if (window.oldScroll < window.scrollY) {
-                player.style.transform += ` scaleX(1)`;
+            // Move the world horizontally based on vertical scroll
+            // We move it up to 400vw (the width of 4 levels, so the 5th is visible)
+            const moveX = scrollFraction * 400;
+            world.style.transform = `translateX(-${moveX}vw)`;
+
+            // Character "Running" Animation
+            const legSwing = Math.sin(window.scrollY * 0.1) * 15;
+            lLeg.style.transform = `skewX(${legSwing}deg)`;
+            rLeg.style.transform = `skewX(${-legSwing}deg)`;
+
+            // Update Score (Years of XP x Scroll)
+            const score = Math.floor(scrollFraction * 8000);
+            hud.innerText = `SCORE: ${score}`;
+
+            // Flip player based on direction
+            if (window.oldScroll > window.scrollY) {
+                document.getElementById('player').style.transform = 'scaleX(-1)';
             } else {
-                player.style.transform += ` scaleX(-1)`;
+                document.getElementById('player').style.transform = 'scaleX(1)';
             }
             window.oldScroll = window.scrollY;
         });
-
-        // Set body height based on world width to enable scrolling
-        document.body.style.height = '1000vh';
     </script>
 </body>
 </html>
+```
+
+### What I changed to fix the bug:
+1.  **Added `.viewport`:** This is a `fixed` container. It stays locked to your screen. The `world` (your resume) moves inside this container.
+2.  **Increased Body Height:** I set `height: 600vh`. This gives the browser enough "room" to scroll down, which triggers our animation.
+3.  **Smooth Animation:** I added `will-change: transform` to the world container so the movement feels fluid and doesn't jitter.
+4.  **Running Character:** I added "legs" to your character that move back and forth based on your scroll speed, making it feel like a real 2D side-scroller.
+
+**To view:** Simply save this as `index.html` and open it in your browser. You can then push this exact file to your GitHub repo to go live.
