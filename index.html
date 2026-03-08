@@ -1,38 +1,33 @@
-The "black screen" issue happened because the container wasn't "stuck" to the screen. When you scrolled down, the content moved up and off the page, leaving you with a blank background.
-
-I have refactored this to use **Sticky Positioning**. Now, the game "stays" on your screen while you scroll, and the levels slide horizontally. I also added a "Jersey" character that actually "runs" (legs move) when you scroll.
-
-### The Fixed Code
-Copy and paste this into your `index.html`.
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ali Muhammad Rafiq | Product Season</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --amex-blue: #0071ce;
             --wepay-teal: #00d1c1;
+            --gm-blue: #004b91;
+            --tcs-red: #f13c31;
             --court-orange: #e56717;
             --wood: #d2a679;
         }
+
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
             padding: 0;
             background-color: #000;
             font-family: 'Inter', sans-serif;
-            /* This creates the "scroll length" - 5x the screen height */
-            height: 600vh; 
+            /* 7 Sections = 800vh scroll height */
+            height: 800vh; 
             color: white;
             overflow-x: hidden;
         }
 
-        /* This keeps the game visible while you scroll down the body */
         .viewport {
             position: fixed;
             top: 0;
@@ -42,10 +37,9 @@ Copy and paste this into your `index.html`.
             overflow: hidden;
         }
 
-        /* The long horizontal world */
         .world {
             display: flex;
-            width: 500vw; /* 5 Levels */
+            width: 700vw; /* 7 Levels */
             height: 100vh;
             transition: transform 0.1s ease-out;
             will-change: transform;
@@ -56,111 +50,109 @@ Copy and paste this into your `index.html`.
             height: 100vh;
             position: relative;
             flex-shrink: 0;
-            padding: 100px;
-            box-sizing: border-box;
+            padding: 60px 100px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
         }
 
-        /* Character Logic */
+        /* Character */
         #player {
             position: fixed;
             bottom: 120px;
-            left: 50px;
+            left: 80px;
             width: 60px;
             height: 100px;
             z-index: 1000;
-            transition: transform 0.1s;
         }
 
         .jersey {
-            width: 40px;
-            height: 50px;
+            width: 44px;
+            height: 55px;
             background: var(--court-orange);
             border: 3px solid white;
-            border-radius: 5px;
+            border-radius: 4px;
             position: relative;
             margin: 0 auto;
         }
 
         .jersey::after {
-            content: "ALI";
+            content: "8";
             font-family: 'Press Start 2P';
-            font-size: 14px;
+            font-size: 16px;
             position: absolute;
-            top: 10px; left: 10px;
+            top: 12px; left: 10px;
         }
 
         .head {
-            width: 30px; height: 30px;
+            width: 32px; height: 32px;
             background: #ffdbac;
             border-radius: 50%;
-            margin: 0 auto 5px;
+            margin: 0 auto 4px;
         }
 
         .leg {
             position: absolute;
             bottom: -20px;
-            width: 10px; height: 20px;
+            width: 12px; height: 22px;
             background: #ffdbac;
         }
-        .leg.left { left: 10px; }
-        .leg.right { right: 10px; }
+        .leg.left { left: 12px; }
+        .leg.right { right: 12px; }
 
-        /* Levels Styling */
+        /* Levels Containers */
         .level-1 { background: linear-gradient(#1a1a2e, #16213e); }
-        .level-2 { background: linear-gradient(#002663, #0071ce); } /* Amex */
-        .level-3 { background: linear-gradient(#004d40, #00d1c1); } /* WePay */
-        .level-4 { background: linear-gradient(#002663, #0071ce); } /* Amex */
-        .level-5 { background: linear-gradient(#cfe8ff, #7cc6ff); color: #000; } /* GM */
-        .level-6 { background: linear-gradient(#ffd6d6, #ff9e9e); color: #000; } /* TCS */
-        .level-7 { background: var(--wood); color: #000; } /* Education */
+        .level-2 { background: #002663; } /* Amex Current */
+        .level-3 { background: #004d40; } /* WePay */
+        .level-4 { background: #001a44; } /* Amex Previous */
+        .level-5 { background: #333; }    /* GM */
+        .level-6 { background: #444; }    /* TCS */
+        .level-7 { background: var(--wood); color: #000; } /* Finale */
 
         .floor {
             position: absolute;
             bottom: 0; left: 0;
             width: 100%; height: 120px;
-            background: rgba(0,0,0,0.3);
-            border-top: 4px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.4);
+            border-top: 6px solid rgba(255,255,255,0.1);
         }
 
         .card {
-            background: rgba(0,0,0,0.8);
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 600px;
-            border-left: 10px solid var(--court-orange);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.85);
+            padding: 25px 35px;
+            border-radius: 12px;
+            max-width: 900px;
+            border-left: 8px solid var(--court-orange);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            margin-top: 20px;
+            line-height: 1.5;
         }
 
-        h1 { font-family: 'Press Start 2P'; font-size: 2rem; margin: 0; color: var(--court-orange); }
-        h2 { font-family: 'Press Start 2P'; font-size: 1.2rem; color: #fff; }
+        .level-7 .card { background: white; color: black; border-left: 8px solid #000; }
+
+        h1 { font-family: 'Press Start 2P'; font-size: 1.8rem; margin-bottom: 5px; color: var(--court-orange); }
+        h2 { font-family: 'Press Start 2P'; font-size: 1.1rem; margin-top: 0; color: #fff; text-transform: uppercase; }
+        .date { font-family: 'Press Start 2P'; font-size: 0.7rem; color: #aaa; margin-bottom: 15px; display: block; }
         
-        .skill-tag {
-            display: inline-block;
-            background: var(--court-orange);
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.7rem;
-            font-family: 'Press Start 2P';
-            margin: 5px;
-        }
+        ul { padding-left: 20px; margin: 0; }
+        li { margin-bottom: 10px; font-size: 0.95rem; }
 
         #hud {
             position: fixed;
-            top: 20px; right: 20px;
+            top: 30px; right: 40px;
             font-family: 'Press Start 2P';
             color: var(--court-orange);
             z-index: 2000;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
         }
 
         .scroll-tip {
             position: fixed;
-            bottom: 30px; left: 50%;
-            transform: translateX(-50%);
+            bottom: 40px; right: 40px;
             font-family: 'Press Start 2P';
-            font-size: 0.8rem;
+            font-size: 0.7rem;
+            color: white;
             animation: pulse 2s infinite;
         }
 
@@ -169,8 +161,8 @@ Copy and paste this into your `index.html`.
 </head>
 <body>
 
-    <div id="hud">SCORE: 0</div>
-    <div class="scroll-tip">SCROLL DOWN TO RUN →</div>
+    <div id="hud">LEVEL: 1</div>
+    <div class="scroll-tip">SCROLL DOWN TO PROGRESS →</div>
 
     <div class="viewport">
         <div id="player">
@@ -181,111 +173,96 @@ Copy and paste this into your `index.html`.
         </div>
 
         <div class="world" id="world">
-            <!-- START -->
+            
+            <!-- SECTION 1: INTRO -->
             <section class="level level-1">
                 <h1>ALI MUHAMMAD RAFIQ</h1>
-                <p>8+ Years Product Management XP</p>
+                <h2>Product Manager</h2>
                 <div class="card">
-                    <p>Strategic and results-driven Product Manager with 8+ years of experience leading high-impact initiatives across fintech and enterprise technology. Expertise spans loyalty digital transformation, API and SDK products, distributed systems, cloud migration, and generative AI applications. Known for driving measurable outcomes, mentoring teams, and presenting to executive leadership, including CEOs and senior VPs. Skilled at translating technical complexity into actionable product solutions that improve customer experience, reduce operational costs, and accelerate time-to-market.</p>
-                    <div class="skill-tag">PYTHON</div>
-                    <div class="skill-tag">SQL</div>
-                    <div class="skill-tag">VIBE CODING</div>
+                    <p>Strategic and results-driven Product Manager with 8+ years of experience leading high-impact initiatives across fintech and enterprise technology. Expertise spans loyalty digital transformation, API and SDK products, distributed systems, cloud migration, and generative AI applications.</p>
                 </div>
                 <div class="floor"></div>
             </section>
 
-            <!-- AMEX -->
+            <!-- SECTION 2: AMEX CURRENT -->
             <section class="level level-2">
-                <h2>LEVEL: AMERICAN EXPRESS</h2>
+                <h2>AMERICAN EXPRESS</h2>
+                <span class="date">April 2022 - Present | Senior Product Manager</span>
                 <div class="card">
-                    <p><strong>Senior Product Manager</strong></p>
                     <ul>
-                        <li>Led U.S. loyalty modernization across distributed systems and mainframe, partnering with 20–30 cross-functional stakeholders to define future-state embedded earn qualification and loyalty banking capabilities.</li>
+                        <li>Led U.S. loyalty modernization across distributed systems and mainframe (COBOL, DB2), partnering with 20–30 cross-functional stakeholders to define future-state embedded earn qualification and loyalty banking capabilities.</li>
                         <li>Delivered end-to-end product execution — discovery, requirements, build, E2E testing, parallel comparison — identifying 20+ compliance exceptions, 10+ modern-infra issues, and resolving 10+ legacy defects causing millions in cardmember harm.</li>
                         <li>Migrated Consumer MR, Business MR, MR Bank, and Cash Rebate programs to a unified distributed architecture, reducing time-to-market from months to a few weeks and enabling hundreds of millions in future mainframe cost savings.</li>
                         <li>Drove product delivery for Cash Rebate, Business MR, and Cash Rebate Bank entirely independently, and established the transformation framework for Consumer MR (control analysis, root-cause cataloging, customer-issue prevention).</li>
                         <li>Created scalable PM operating models: new PRD template, RICE prioritization model, SPIN feedback practice, and an audit-ready E2E testing framework adopted across teams.</li>
-                        <li>Acted as internal GenAI SME; used ChatGPT, copilots, and internal models to accelerate SQL/Excel analysis, automate discovery, and presented GenAI best practices to 100+ enterprise attendees.</li>
-                        <li>Mentored 4 junior PMs, established myself as the floor’s SME for embedded earn qualification and loyalty banking, and was selected by a Senior VP to independently lead Cash Rebate qualification and bank modernization.</li>
-                        <li>Received multiple senior-leadership shoutouts; work gained visibility up to the CEO during the enterprise-scale digital transformation.</li>
-
-
-    
-
-
-
-                        
                     </ul>
                 </div>
                 <div class="floor"></div>
             </section>
 
-            <!-- WEPAY -->
+            <!-- SECTION 3: WEPAY -->
             <section class="level level-3">
-                <h2>LEVEL: WEPAY (JPMC)</h2>
+                <h2>WEPAY (JPM CHASE)</h2>
+                <span class="date">April 2021 - April 2022 | Product Manager</span>
                 <div class="card">
-                    <li>Launched “Bar Tabs,” enabling $1B+ annual transaction volume and resolving 10–15 high-impact UX and operational issues; improved NPS by 5%.</li>
-                    <li>Built analytics dashboard ranking ISV partners by traffic/revenue, improving partner prioritization.</li>
-                    <li>Led CEO-level escalation on quarterly planning, proposing 3 strategic options; CEO selected final execution route.</li>
-                    <li>Improved SDK/API onboarding by revamping developer documentation; collaborated with Sales/Field teams to influence enterprise deals.</li>
-
+                    <ul>
+                        <li>Launched “Bar Tabs,” enabling $1B+ annual transaction volume and resolving 10–15 high-impact UX and operational issues; improved NPS by 5%.</li>
+                        <li>Built analytics dashboard ranking ISV partners by traffic/revenue, improving partner prioritization.</li>
+                        <li>Led CEO-level escalation on quarterly planning, proposing 3 strategic options; CEO selected final execution route.</li>
+                        <li>Improved SDK/API onboarding by revamping developer documentation; collaborated with Sales/Field teams to influence enterprise deals.</li>
+                    </ul>
                 </div>
                 <div class="floor"></div>
             </section>
 
-            <!-- AMEX -->
+            <!-- SECTION 4: AMEX PREVIOUS -->
             <section class="level level-4">
-                <h2>LEVEL: AMERICAN EXPRESS</h2>
+                <h2>AMERICAN EXPRESS</h2>
+                <span class="date">Nov 2019 - April 2021 | Sr. Associate PM</span>
                 <div class="card">
-                    <p><strong>Software Developer</strong></p>
                     <ul>
                         <li>Delivered 20+ internal and external-facing APIs, ensuring 99.9999% uptime; improved internal developer NPS by 10%.</li>
                         <li>Spearheaded Postman-first testing, API lifecycle processes, and feedback programs to improve reliability and developer experience.</li>
-
                     </ul>
                 </div>
                 <div class="floor"></div>
             </section>
 
-
-             <!-- GM -->
+            <!-- SECTION 5: GM -->
             <section class="level level-5">
-                <h2>LEVEL: GENERAL MOTORS</h2>
+                <h2>GENERAL MOTORS</h2>
+                <span class="date">August 2018 - Nov 2019 | Software Developer</span>
                 <div class="card">
-                    <p><strong>Software Developer</strong></p>
                     <ul>
                         <li>Migrated $1B+ operational data from SaaS to hybrid in-house solution, reducing costs and increasing operational control.</li>
                         <li>Built C#/.NET full-stack tools used by 100s of warehouse employees, automating workflows and improving efficiency.</li>
-
                     </ul>
                 </div>
                 <div class="floor"></div>
             </section>
 
-
+            <!-- SECTION 6: TCS -->
             <section class="level level-6">
-                <h2>LEVEL: TATA CONSULTANCY SERVICES</h2>
+                <h2>TATA CONSULTANCY SERVICES</h2>
+                <span class="date">July 2017 - August 2018 | Software Engineer</span>
                 <div class="card">
-                    <p><strong>Software Developer</strong></p>
                     <ul>
                         <li>Provided incident triage and support for critical systems, improving uptime and response times for Sev1/Sev2 incidents.</li>
-                        <li> Enhanced Java code quality, reducing technical debt and enabling faster incident resolution.</li>
-
+                        <li>Enhanced Java code quality, reducing technical debt and enabling faster incident resolution.</li>
                     </ul>
                 </div>
                 <div class="floor"></div>
             </section>
 
-
-            <!-- END -->
+            <!-- SECTION 7: FINALE -->
             <section class="level level-7">
-                <h1 style="color: #000;">SEASON FINALE</h1>
-                <div class="card" style="background: white; color: black;">
-                    <p><strong>Education:</strong> B.S. Computer Science, ASU</p>
-                    <p><strong>Contact:</strong> amrafiq994@gmail.com</p>
-                    <p><strong>Status:</strong> Ready for the next Championship.</p>
+                <h1 style="color: #000;">DRAFT COMPLETE</h1>
+                <div class="card">
+                    <p><strong>EDUCATION:</strong> B.S. in Computer Science, Arizona State University</p>
+                    <p><strong>SKILLS:</strong> SQL (Analysis, Migration Comparisons), API Design (REST, Postman), LLM Tooling (ChatGPT, Claude), Prompt Engineering, RICE, OKRs, NPS Tracking.</p>
+                    <p><strong>CONTACT:</strong> amrafiq994@gmail.com | (650) 666 9844</p>
                 </div>
-                <div class="floor"></div>
+                <div class="floor" style="background: #8b4513;"></div>
             </section>
         </div>
     </div>
@@ -295,43 +272,33 @@ Copy and paste this into your `index.html`.
         const hud = document.getElementById('hud');
         const lLeg = document.getElementById('l-leg');
         const rLeg = document.getElementById('r-leg');
+        const player = document.getElementById('player');
         
         window.addEventListener('scroll', () => {
-            // Calculate how far we have scrolled
             const maxScroll = document.body.scrollHeight - window.innerHeight;
             const scrollFraction = window.scrollY / maxScroll;
             
-            // Move the world horizontally based on vertical scroll
-            // We move it up to 400vw (the width of 4 levels, so the 5th is visible)
-            const moveX = scrollFraction * 400;
+            // Move world (600vw is total distance to move to show 7th level)
+            const moveX = scrollFraction * 600;
             world.style.transform = `translateX(-${moveX}vw)`;
 
-            // Character "Running" Animation
-            const legSwing = Math.sin(window.scrollY * 0.1) * 15;
-            lLeg.style.transform = `skewX(${legSwing}deg)`;
-            rLeg.style.transform = `skewX(${-legSwing}deg)`;
+            // Leg Animation
+            const legSwing = Math.sin(window.scrollY * 0.1) * 20;
+            lLeg.style.transform = `rotate(${legSwing}deg)`;
+            rLeg.style.transform = `rotate(${-legSwing}deg)`;
 
-            // Update Score (Years of XP x Scroll)
-            const score = Math.floor(scrollFraction * 8000);
-            hud.innerText = `SCORE: ${score}`;
+            // Update HUD level
+            const currentLevel = Math.min(Math.floor(scrollFraction * 7) + 1, 7);
+            hud.innerText = `LEVEL: ${currentLevel}`;
 
             // Flip player based on direction
             if (window.oldScroll > window.scrollY) {
-                document.getElementById('player').style.transform = 'scaleX(-1)';
+                player.style.transform = 'scaleX(-1)';
             } else {
-                document.getElementById('player').style.transform = 'scaleX(1)';
+                player.style.transform = 'scaleX(1)';
             }
             window.oldScroll = window.scrollY;
         });
     </script>
 </body>
 </html>
-```
-
-### What I changed to fix the bug:
-1.  **Added `.viewport`:** This is a `fixed` container. It stays locked to your screen. The `world` (your resume) moves inside this container.
-2.  **Increased Body Height:** I set `height: 600vh`. This gives the browser enough "room" to scroll down, which triggers our animation.
-3.  **Smooth Animation:** I added `will-change: transform` to the world container so the movement feels fluid and doesn't jitter.
-4.  **Running Character:** I added "legs" to your character that move back and forth based on your scroll speed, making it feel like a real 2D side-scroller.
-
-**To view:** Simply save this as `index.html` and open it in your browser. You can then push this exact file to your GitHub repo to go live.
