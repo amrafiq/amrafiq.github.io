@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ali Muhammad Rafiq | NBA Product Season</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <title>Ali Muhammad Rafiq | Interactive Resume</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --amex-blue: #0071ce;
@@ -17,12 +17,11 @@
             margin: 0; padding: 0;
             background-color: #000;
             font-family: 'Inter', sans-serif;
-            height: 800vh; /* 8 stages of scrolling */
+            height: 900vh; /* Extra scroll for all levels */
             color: white;
             overflow-x: hidden;
         }
 
-        /* FIXED VIEWPORT */
         .viewport {
             position: fixed;
             top: 0; left: 0;
@@ -30,7 +29,6 @@
             overflow: hidden;
         }
 
-        /* HORIZONTAL WORLD */
         .world {
             display: flex;
             width: 700vw; 
@@ -43,17 +41,16 @@
             width: 100vw; height: 100vh;
             position: relative;
             flex-shrink: 0;
-            padding: 50px 80px;
+            padding: 40px 60px;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
         }
 
-        /* COLORS */
-        .level-1 { background: #1a1a2e; }
-        .level-2 { background: #002663; }
+        /* Backgrounds */
+        .level-1 { background: radial-gradient(circle, #1a1a2e, #111); }
+        .level-2, .level-4 { background: #002663; }
         .level-3 { background: #004d40; }
-        .level-4 { background: #001a44; }
         .level-5 { background: #333; }
         .level-6 { background: #444; }
         .level-7 { background: var(--wood); color: #000; }
@@ -61,109 +58,107 @@
         /* FLOOR & HOOP */
         .floor {
             position: absolute; bottom: 0; left: 0;
-            width: 100%; height: 100px;
-            background: rgba(0,0,0,0.5);
+            width: 100%; height: 80px;
+            background: rgba(0,0,0,0.6);
             border-top: 4px solid var(--court-orange);
         }
 
         .hoop {
-            position: absolute; bottom: 180px; right: 100px;
-            width: 60px; height: 80px;
-            border: 4px solid white;
-            border-radius: 5px;
+            position: absolute; bottom: 220px; right: 50px;
+            width: 80px; height: 100px;
+            border: 5px solid white;
+            border-radius: 8px;
+            z-index: 5;
         }
         .hoop::after {
-            content: '';
-            position: absolute; bottom: -20px; left: 10px;
-            width: 40px; height: 30px;
-            border: 2px solid rgba(255,255,255,0.5);
-            background: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,255,255,0.2) 5px, rgba(255,255,255,0.2) 10px);
+            content: ''; position: absolute; bottom: -30px; left: 10px;
+            width: 60px; height: 40px;
+            border: 2px solid rgba(255,255,255,0.4);
+            background: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,255,255,0.1) 5px, rgba(255,255,255,0.1) 10px);
         }
 
         /* PLAYER & BALL */
         #player-container {
-            position: fixed; bottom: 100px; left: 100px;
-            width: 80px; height: 120px;
-            z-index: 1000;
+            position: fixed; bottom: 80px; left: 80px;
+            width: 80px; height: 120px; z-index: 1000;
         }
-        
-        .character { position: relative; width: 100%; height: 100%; transition: 0.3s; }
+        .character { position: relative; width: 100%; height: 100%; transition: 0.2s; }
         .head { width: 35px; height: 35px; background: #ffdbac; border-radius: 50%; margin: 0 auto; }
         .jersey { width: 45px; height: 55px; background: var(--court-orange); border: 2px solid white; margin: 0 auto; position: relative; }
         .jersey::after { content: '8'; font-family: 'Press Start 2P'; font-size: 14px; position: absolute; top: 12px; left: 12px; color: white; }
-        .arm { position: absolute; width: 10px; height: 30px; background: #ffdbac; top: 40px; transition: 0.3s; }
+        .arm { position: absolute; width: 12px; height: 35px; background: #ffdbac; top: 40px; border-radius: 5px; }
         .arm.left { left: 5px; } .arm.right { right: 5px; }
 
-        /* Ball Animation */
         #ball {
-            position: fixed;
-            width: 25px; height: 25px;
-            background: #ff8c00;
-            border-radius: 50%;
-            border: 2px solid black;
-            z-index: 999;
-            display: none;
+            position: fixed; width: 30px; height: 30px;
+            background: radial-gradient(circle at 30% 30%, #ff8c00, #b35900);
+            border-radius: 50%; border: 2px solid black;
+            z-index: 999; display: none;
         }
 
-        /* UI ELEMENTS */
+        /* CONTENT CARDS */
         .card {
-            background: rgba(0,0,0,0.85); padding: 25px; border-radius: 12px;
-            max-width: 850px; border-left: 8px solid var(--court-orange);
-            margin-top: 20px; line-height: 1.4;
+            background: rgba(0,0,0,0.9); padding: 25px; border-radius: 15px;
+            max-width: 950px; border-left: 8px solid var(--court-orange);
+            margin-top: 15px; line-height: 1.6; font-size: 0.95rem;
+            max-height: 60vh; overflow-y: auto;
         }
         h1 { font-family: 'Press Start 2P'; font-size: 1.8rem; color: var(--court-orange); margin: 0; }
-        h2 { font-family: 'Press Start 2P'; font-size: 1.1rem; color: #fff; }
-        
+        h2 { font-family: 'Press Start 2P'; font-size: 1rem; color: #fff; margin: 5px 0; }
+        .date { font-size: 0.8rem; opacity: 0.7; font-family: 'Press Start 2P'; display: block; margin-bottom: 10px; }
+
         /* SKILL TILES */
         .skill-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
         .skill-tile {
-            background: white; color: black; padding: 8px 15px;
+            background: #fff; color: #000; padding: 10px 15px;
             font-family: 'Press Start 2P'; font-size: 0.6rem; border-radius: 4px;
             box-shadow: 4px 4px 0px var(--court-orange);
         }
 
         #scoreboard {
-            position: fixed; top: 20px; right: 40px;
+            position: fixed; top: 20px; right: 20px;
             font-family: 'Press Start 2P'; background: #000;
             padding: 15px; border: 3px solid var(--court-orange); z-index: 2000;
         }
 
-        /* CONTACT FORM */
-        form { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
-        input, textarea {
-            padding: 10px; border-radius: 5px; border: 2px solid #000;
-            font-family: 'Inter', sans-serif;
-        }
-        button {
-            background: var(--court-orange); color: white; border: none;
-            padding: 12px; font-family: 'Press Start 2P'; cursor: pointer;
+        /* VICTORY OVERLAY */
+        #victory-msg {
+            display: none; font-family: 'Press Start 2P'; font-size: 3rem;
+            color: #ffd700; text-shadow: 4px 4px 0 #000;
+            text-align: center; margin-bottom: 20px;
         }
 
-        /* VICTORY STATE */
-        .victory .arm { transform: translateY(-40px) rotate(180deg); }
-        #victory-msg {
-            display: none; position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'Press Start 2P'; font-size: 4rem;
-            color: yellow; text-shadow: 5px 5px 0 #000; z-index: 3000;
+        /* FORM */
+        form { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .full-width { grid-column: span 2; }
+        input, textarea {
+            padding: 12px; border: 2px solid #000; font-family: 'Inter', sans-serif; font-weight: 700;
         }
+        button {
+            grid-column: span 2; background: #000; color: #fff; border: none;
+            padding: 15px; font-family: 'Press Start 2P'; cursor: pointer; transition: 0.2s;
+        }
+        button:hover { background: var(--court-orange); }
+
+        /* CUSTOM SCROLLBAR */
+        .card::-webkit-scrollbar { width: 8px; }
+        .card::-webkit-scrollbar-thumb { background: var(--court-orange); border-radius: 4px; }
     </style>
 </head>
 <body>
 
-    <div id="scoreboard">PTS: 0</div>
-    <div id="victory-msg">YOU WIN!</div>
-    <div id="ball"></div>
+    <div id="scoreboard">SCORE: 000</div>
 
     <div class="viewport">
         <div id="player-container">
             <div class="character" id="player-sprite">
                 <div class="head"></div>
-                <div class="arm left"></div>
-                <div class="arm right"></div>
+                <div class="arm left" id="l-arm"></div>
+                <div class="arm right" id="r-arm"></div>
                 <div class="jersey"></div>
             </div>
         </div>
+        <div id="ball"></div>
 
         <div class="world" id="world">
             
@@ -171,14 +166,15 @@
             <section class="level level-1">
                 <h1>ALI MUHAMMAD RAFIQ</h1>
                 <div class="card">
-                    <p>8+ years experience leading high-impact initiatives across fintech and enterprise technology.</p>
+                    <p>Strategic and results-driven Product Manager with 8+ years of experience leading high-impact initiatives across fintech and enterprise technology. Expertise spans loyalty digital transformation, API and SDK products, distributed systems, cloud migration, and generative AI applications. Known for driving measurable outcomes, mentoring teams, and presenting to executive leadership, including CEOs and senior VPs. Skilled at translating technical complexity into actionable product solutions that improve customer experience, reduce operational costs, and accelerate time-to-market.</p>
                     <div class="skill-container">
                         <div class="skill-tile">SQL</div>
                         <div class="skill-tile">API DESIGN</div>
                         <div class="skill-tile">GEN AI</div>
-                        <div class="skill-tile">PYTHON</div>
+                        <div class="skill-tile">PROMPT ENG</div>
                         <div class="skill-tile">RICE</div>
                         <div class="skill-tile">OKRS</div>
+                        <div class="skill-tile">POSTMAN</div>
                     </div>
                 </div>
                 <div class="hoop"></div>
@@ -188,11 +184,16 @@
             <!-- LVL 2: AMEX CURRENT -->
             <section class="level level-2">
                 <h2>AMERICAN EXPRESS</h2>
+                <span class="date">April 2022 - Present | Senior Product Manager</span>
                 <div class="card">
                     <ul>
-                        <li>Led U.S. loyalty modernization across distributed systems and mainframe (COBOL, DB2).</li>
-                        <li>Identified 20+ compliance exceptions, 10+ modern-infra issues, and resolved 10+ legacy defects.</li>
-                        <li>Migrated Consumer MR to a unified distributed architecture, reducing time-to-market from months to weeks.</li>
+                        <li>Led U.S. loyalty modernization across distributed systems and mainframe (COBOL, DB2), partnering with 20–30 cross-functional stakeholders to define future-state embedded earn qualification and loyalty banking capabilities.</li>
+                        <li>Delivered end-to-end product execution — discovery, requirements, build, E2E testing, parallel comparison — identifying 20+ compliance exceptions, 10+ modern-infra issues, and resolving 10+ legacy defects causing millions in cardmember harm.</li>
+                        <li>Migrated Consumer MR, Business MR, MR Bank, and Cash Rebate programs to a unified distributed architecture, reducing time-to-market from months to a few weeks and enabling hundreds of millions in future mainframe cost savings.</li>
+                        <li>Drove product delivery for Cash Rebate, Business MR, and Cash Rebate Bank entirely independently, and established the transformation framework for Consumer MR (control analysis, root-cause cataloging, customer-issue prevention).</li>
+                        <li>Created scalable PM operating models: new PRD template, RICE prioritization model, SPIN feedback practice, and an audit-ready E2E testing framework adopted across teams.</li>
+                        <li>Acted as internal GenAI SME; used ChatGPT, copilots, and internal models to accelerate SQL/Excel analysis, automate discovery, and presented GenAI best practices to 100+ enterprise attendees.</li>
+                        <li>Mentored 4 junior PMs, established myself as the floor’s SME for embedded earn qualification and loyalty banking, and was selected by a Senior VP to independently lead Cash Rebate qualification and bank modernization.</li>
                     </ul>
                 </div>
                 <div class="hoop"></div>
@@ -201,12 +202,14 @@
 
             <!-- LVL 3: WEPAY -->
             <section class="level level-3">
-                <h2>WEPAY (JP MORGAN)</h2>
+                <h2>WEPAY (JP MORGAN CHASE)</h2>
+                <span class="date">April 2021 - April 2022 | Product Manager</span>
                 <div class="card">
                     <ul>
-                        <li>Launched “Bar Tabs,” enabling $1B+ annual transaction volume.</li>
-                        <li>Built analytics dashboard ranking ISV partners by traffic/revenue.</li>
-                        <li>Led CEO-level escalation on quarterly planning.</li>
+                        <li>Launched “Bar Tabs,” enabling $1B+ annual transaction volume and resolving 10–15 high-impact UX and operational issues; improved NPS by 5%.</li>
+                        <li>Built analytics dashboard ranking ISV partners by traffic/revenue, improving partner prioritization.</li>
+                        <li>Led CEO-level escalation on quarterly planning, proposing 3 strategic options; CEO selected final execution route.</li>
+                        <li>Improved SDK/API onboarding by revamping developer documentation; collaborated with Sales/Field teams to influence enterprise deals.</li>
                     </ul>
                 </div>
                 <div class="hoop"></div>
@@ -216,10 +219,12 @@
             <!-- LVL 4: AMEX PREVIOUS -->
             <section class="level level-4">
                 <h2>AMERICAN EXPRESS</h2>
+                <span class="date">Nov 2019 - April 2021 | Sr. Associate PM</span>
                 <div class="card">
                     <ul>
-                        <li>Delivered 20+ internal and external-facing APIs ensuring 99.9999% uptime.</li>
-                        <li>Spearheaded Postman-first testing and API lifecycle processes.</li>
+                        <li>Associate Product Manager, Loyalty APIs (Nov 2019 – Oct 2020) | Senior Associate Product Manager (Oct 2020 – Apr 2021).</li>
+                        <li>Delivered 20+ internal and external-facing APIs, ensuring 99.9999% uptime; improved internal developer NPS by 10%.</li>
+                        <li>Spearheaded Postman-first testing, API lifecycle processes, and feedback programs to improve reliability and developer experience.</li>
                     </ul>
                 </div>
                 <div class="hoop"></div>
@@ -229,10 +234,11 @@
             <!-- LVL 5: GM -->
             <section class="level level-5">
                 <h2>GENERAL MOTORS</h2>
+                <span class="date">August 2018 - Nov 2019 | Software Developer</span>
                 <div class="card">
                     <ul>
-                        <li>Migrated $1B+ operational data from SaaS to hybrid in-house solution.</li>
-                        <li>Built C#/.NET full-stack tools used by 100s of warehouse employees.</li>
+                        <li>Migrated $1B+ operational data from SaaS to hybrid in-house solution, reducing costs and increasing operational control.</li>
+                        <li>Built C#/.NET full-stack tools used by 100s of warehouse employees, automating workflows and improving efficiency.</li>
                     </ul>
                 </div>
                 <div class="hoop"></div>
@@ -242,10 +248,11 @@
             <!-- LVL 6: TCS -->
             <section class="level level-6">
                 <h2>TATA CONSULTANCY SERVICES</h2>
+                <span class="date">July 2017 - August 2018 | Software Engineer</span>
                 <div class="card">
                     <ul>
-                        <li>Provided incident triage and support for critical systems (Sev1/Sev2).</li>
-                        <li>Enhanced Java code quality, reducing technical debt.</li>
+                        <li>Provided incident triage and support for critical systems, improving uptime and response times for Sev1/Sev2 incidents.</li>
+                        <li>Enhanced Java code quality, reducing technical debt and enabling faster incident resolution.</li>
                     </ul>
                 </div>
                 <div class="hoop"></div>
@@ -254,20 +261,20 @@
 
             <!-- LVL 7: FINALE -->
             <section class="level level-7">
-                <h1>DRAFT COMPLETED</h1>
-                <div class="card" style="background:white; color:#000;">
-                    <p><strong>Education:</strong> Arizona State University (Computer Science)</p>
-                    <p><strong>Email Me:</strong></p>
-                    <form action="https://formspree.io/f/amrafiq994@gmail.com" method="POST">
+                <div id="victory-msg">YOU WIN!</div>
+                <div class="card" style="background:white; color:#000; border-color:#000;">
+                    <h2>B.S. COMPUTER SCIENCE - ARIZONA STATE UNIVERSITY</h2>
+                    <p style="margin:0;"><strong>START A PROJECT:</strong></p>
+                    <!-- FALLBACK TO MAILTO. If you get a Formspree ID, change action to: https://formspree.io/f/YOUR_ID -->
+                    <form action="mailto:amrafiq994@gmail.com" method="POST" enctype="text/plain">
                         <input type="text" name="name" placeholder="NAME:" required>
-                        <input type="email" name="_replyto" placeholder="EMAIL:" required>
-                        <textarea name="message" rows="3" placeholder="MESSAGE:" required></textarea>
+                        <input type="email" name="email" placeholder="EMAIL:" required>
+                        <textarea name="message" class="full-width" rows="3" placeholder="MESSAGE:" required></textarea>
                         <button type="submit">SEND DRAFT PICK</button>
                     </form>
                 </div>
                 <div class="floor" style="background: #8b4513;"></div>
             </section>
-
         </div>
     </div>
 
@@ -277,59 +284,67 @@
         const ball = document.getElementById('ball');
         const playerSprite = document.getElementById('player-sprite');
         const victoryMsg = document.getElementById('victory-msg');
+        const lArm = document.getElementById('l-arm');
+        const rArm = document.getElementById('r-arm');
         
         let lastShotLevel = -1;
         let points = 0;
 
         window.addEventListener('scroll', () => {
-            const scrollFraction = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            const scrollFraction = window.scrollY / maxScroll;
+            
+            // Move world
             world.style.transform = `translateX(-${scrollFraction * 600}vw)`;
 
-            // Logic to trigger shots
+            // Get Current Level
             const currentLevel = Math.floor(scrollFraction * 7);
             
+            // Trigger shot when level changes
             if (currentLevel > lastShotLevel && currentLevel < 6) {
-                shootBall(currentLevel);
+                shootBall();
                 lastShotLevel = currentLevel;
                 points += 3;
-                scoreboard.innerText = `PTS: ${points}`;
+                scoreboard.innerText = `SCORE: ${points.toString().padStart(3, '0')}`;
             }
 
-            // Victory state
-            if (scrollFraction > 0.95) {
-                playerSprite.classList.add('victory');
+            // Finale / Victory State
+            if (scrollFraction > 0.96) {
                 victoryMsg.style.display = 'block';
+                lArm.style.transform = 'translateY(-40px) rotate(180deg)';
+                rArm.style.transform = 'translateY(-40px) rotate(180deg)';
             } else {
-                playerSprite.classList.remove('victory');
                 victoryMsg.style.display = 'none';
+                lArm.style.transform = 'none';
+                rArm.style.transform = 'none';
             }
         });
 
-        function shootBall(level) {
+        function shootBall() {
             ball.style.display = 'block';
-            ball.style.left = '140px';
-            ball.style.bottom = '180px';
             
-            // CSS styles for different shots
-            const shotStyles = [
-                { x: 800, y: 100 }, // Jump shot
-                { x: 800, y: 300 }, // Hook
-                { x: 800, y: 0 },   // Dunk
-                { x: 800, y: 150 }, // Fadeaway
-                { x: 800, y: 50 },  // Layup
-                { x: 800, y: 100 }  // Free throw
-            ];
+            // Start position (Player's hand)
+            const startX = 140; 
+            const startY = window.innerHeight - 200;
+            
+            // Target position (Hoop location is approx 50px from right edge)
+            const targetX = window.innerWidth - 100;
+            const targetY = window.innerHeight - 300;
 
-            const style = shotStyles[level] || shotStyles[0];
-            
-            ball.animate([
-                { transform: `translate(0, 0)` },
-                { transform: `translate(${style.x/2}px, -${style.y}px)` },
-                { transform: `translate(${style.x}px, 50px)` }
+            ball.style.left = startX + 'px';
+            ball.style.top = startY + 'px';
+
+            // Parabolic Arc Animation
+            const animation = ball.animate([
+                { left: `${startX}px`, top: `${startY}px` },
+                { left: `${(startX + targetX) / 2}px`, top: `${targetY - 150}px` }, // Apex of shot
+                { left: `${targetX}px`, top: `${targetY}px` } // Into hoop
             ], {
                 duration: 800,
-                easing: 'ease-in-out'
-            }).onfinish = () => {
+                easing: 'ease-out'
+            });
+
+            animation.onfinish = () => {
                 ball.style.display = 'none';
             };
         }
