@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ali Muhammad Rafiq | Product Cricket Season</title>
+    <title>Ali Muhammad Rafiq | Product Cricket Career</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -11,6 +11,7 @@
             --pitch-tan: #d2b48c;
             --cricket-red: #8b0000;
             --sky-blue: #87CEEB;
+            --willow-wood: #c19a6b;
         }
 
         * { box-sizing: border-box; }
@@ -42,7 +43,7 @@
             width: 100vw; height: 100vh;
             position: relative;
             flex-shrink: 0;
-            padding: 20px 60px;
+            padding: 30px 80px;
             display: flex;
             flex-direction: column;
             z-index: 2;
@@ -51,80 +52,89 @@
         /* CRICKET GROUND */
         .ground {
             position: absolute; bottom: 0; left: 0;
-            width: 100%; height: 150px;
+            width: 100%; height: 160px;
             background: var(--grass-green);
-            border-top: 10px solid #3d7a35;
+            border-top: 8px solid #3d7a35;
         }
         .pitch {
             position: absolute; bottom: 20px; left: 0;
-            width: 100%; height: 60px;
+            width: 100%; height: 70px;
             background: var(--pitch-tan);
-            opacity: 0.8;
+            opacity: 0.9;
         }
 
-        /* PLAYERS */
+        /* WICKETS (Behind Player) */
+        .wickets {
+            position: fixed; bottom: 90px; left: 130px;
+            display: flex; gap: 5px; z-index: 900;
+        }
+        .stump { width: 4px; height: 50px; background: #ddd; border-radius: 2px; }
+
+        /* BATSMAN */
         #batsman-container {
-            position: fixed; bottom: 80px; left: 150px;
+            position: fixed; bottom: 90px; left: 160px;
             width: 60px; height: 110px; z-index: 1000;
         }
         .batsman { position: relative; width: 100%; height: 100%; }
-        .head { width: 30px; height: 30px; background: #ffdbac; border-radius: 50%; margin: 0 auto; }
-        .jersey { width: 40px; height: 50px; background: #fff; border: 2px solid #ccc; margin: 0 auto; position: relative; }
+        .head { width: 32px; height: 32px; background: #ffdbac; border-radius: 50%; margin: 0 auto; }
+        .jersey { width: 42px; height: 52px; background: #fff; border: 2px solid #ddd; margin: 0 auto; position: relative; }
+        
+        .arm { position: absolute; width: 10px; height: 35px; background: #ffdbac; top: 35px; border-radius: 5px; transition: 0.3s; }
+        .arm.left { left: 0px; } 
+        .arm.right { right: 0px; }
+
         .bat { 
-            position: absolute; width: 8px; height: 45px; 
-            background: #8b4513; bottom: 0; right: -15px; 
-            transform-origin: bottom center;
+            position: absolute; width: 10px; height: 50px; 
+            background: var(--willow-wood); bottom: -10px; right: -12px; 
+            border: 2px solid #8b4513; border-radius: 2px;
+            transform-origin: top center;
             transition: transform 0.2s;
         }
-        .swing { transform: rotate(-110deg); }
 
-        .bowler {
-            position: absolute; bottom: 80px; right: 100px;
-            width: 50px; height: 100px;
-        }
-        .bowler .body { width: 35px; height: 50px; background: #eee; margin: 30px auto 0; }
-        
+        /* ANIMATION STATES */
+        .swing .bat { transform: rotate(-130deg) translateX(-20px); }
+        .victory .arm { transform: translateY(-40px) rotate(180deg); }
+        .victory .bat { transform: translateY(-70px) rotate(160deg); right: 20px; }
+
         #cricket-ball {
-            position: fixed; width: 18px; height: 18px;
+            position: fixed; width: 20px; height: 20px;
             background: var(--cricket-red); border-radius: 50%;
-            border: 1px solid #000; z-index: 2000; display: none;
+            border: 2px solid #000; z-index: 2000; display: none;
         }
 
-        /* TEXT CARDS - NO SCROLLBARS */
+        /* CONTENT CARDS */
         .card {
-            background: rgba(255,255,255,0.95); color: #222;
-            padding: 20px 30px; border-radius: 10px;
-            max-width: 950px; border-bottom: 8px solid var(--cricket-red);
-            margin-top: 10px; line-height: 1.5; font-size: 0.9rem;
-            max-height: none; overflow: visible; /* Forced visibility */
+            background: rgba(255,255,255,0.96); color: #111;
+            padding: 25px 35px; border-radius: 12px;
+            max-width: 1000px; border-bottom: 10px solid var(--cricket-red);
+            margin-top: 15px; line-height: 1.6; font-size: 0.95rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-        h1 { font-family: 'Press Start 2P'; font-size: 1.5rem; color: var(--cricket-red); margin: 0; text-shadow: 2px 2px #fff; }
-        h2 { font-family: 'Press Start 2P'; font-size: 0.9rem; color: #333; margin: 5px 0; }
-        .date { font-size: 0.7rem; font-weight: bold; color: #666; margin-bottom: 10px; display: block; }
+        h1 { font-family: 'Press Start 2P'; font-size: 1.6rem; color: var(--cricket-red); margin: 0; }
+        h2 { font-family: 'Press Start 2P'; font-size: 1rem; color: #222; margin: 5px 0; }
+        .date { font-size: 0.75rem; font-weight: bold; color: #555; margin-bottom: 12px; display: block; }
 
         /* SCOREBOARD */
         #scoreboard {
-            position: fixed; top: 20px; right: 20px;
-            font-family: 'Press Start 2P'; background: #000; color: #0f0;
-            padding: 15px; border: 4px solid #444; z-index: 2000;
-            font-size: 0.8rem; line-height: 1.5;
+            position: fixed; top: 25px; right: 25px;
+            font-family: 'Press Start 2P'; background: #004d00; color: #fff;
+            padding: 20px; border: 4px solid #fff; z-index: 2000;
+            font-size: 0.8rem; line-height: 1.8; box-shadow: 5px 5px 0 #000;
         }
 
         #victory-msg {
             display: none; position: fixed; top: 40%; left: 50%;
             transform: translate(-50%, -50%); font-family: 'Press Start 2P';
-            font-size: 4rem; color: #ffd700; text-shadow: 5px 5px 0 #000;
+            font-size: 5rem; color: #ffd700; text-shadow: 6px 6px 0 #000;
             z-index: 3000; text-align: center;
         }
 
-        /* SKILL TILES */
-        .skill-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
         .skill-tile {
-            background: var(--cricket-red); color: #fff; padding: 6px 12px;
-            font-family: 'Press Start 2P'; font-size: 0.5rem; border-radius: 3px;
+            display: inline-block; background: #222; color: #fff; padding: 6px 12px;
+            font-family: 'Press Start 2P'; font-size: 0.55rem; border-radius: 4px; margin: 5px;
         }
 
-        a { color: var(--cricket-red); font-weight: bold; }
+        a { color: var(--cricket-red); font-weight: 700; }
     </style>
 </head>
 <body>
@@ -132,16 +142,25 @@
     <div id="scoreboard">
         RUNS: 0<br>
         TARGET: 30<br>
-        REQ: 30
+        NEED: 30
     </div>
 
-    <div id="victory-msg">MATCH WON!<br>YOU WIN!</div>
+    <div id="victory-msg">YOU WON!</div>
 
     <div class="viewport">
+        <div class="wickets">
+            <div class="stump"></div>
+            <div class="stump"></div>
+            <div class="stump"></div>
+        </div>
+
         <div id="cricket-ball"></div>
+
         <div id="batsman-container">
-            <div class="batsman">
+            <div class="batsman" id="player-sprite">
                 <div class="head"></div>
+                <div class="arm left" id="l-arm"></div>
+                <div class="arm right" id="r-arm"></div>
                 <div class="jersey"></div>
                 <div id="bat" class="bat"></div>
             </div>
@@ -154,12 +173,11 @@
                 <h1>ALI MUHAMMAD RAFIQ</h1>
                 <div class="card">
                     <p>Strategic and results-driven Product Manager with 8+ years of experience leading high-impact initiatives across fintech and enterprise technology. Expertise spans loyalty digital transformation, API and SDK products, distributed systems, cloud migration, and generative AI applications. Known for driving measurable outcomes, mentoring teams, and presenting to executive leadership, including CEOs and senior VPs. Skilled at translating technical complexity into actionable product solutions that improve customer experience, reduce operational costs, and accelerate time-to-market.</p>
-                    <div class="skill-container">
+                    <div style="margin-top:15px;">
                         <div class="skill-tile">SQL</div><div class="skill-tile">API DESIGN</div><div class="skill-tile">GEN AI</div>
-                        <div class="skill-tile">RICE</div><div class="skill-tile">OKRS</div>
+                        <div class="skill-tile">RICE</div><div class="skill-tile">OKRS</div><div class="skill-tile">PYTHON</div>
                     </div>
                 </div>
-                <div class="bowler"><div class="body"></div></div>
                 <div class="ground"><div class="pitch"></div></div>
             </section>
 
@@ -175,10 +193,10 @@
                         <li>Drove product delivery for Cash Rebate, Business MR, and Cash Rebate Bank entirely independently, and established the transformation framework for Consumer MR (control analysis, root-cause cataloging, customer-issue prevention).</li>
                         <li>Created scalable PM operating models: new PRD template, RICE prioritization model, SPIN feedback practice, and an audit-ready E2E testing framework adopted across teams.</li>
                         <li>Acted as internal GenAI SME; used ChatGPT, copilots, and internal models to accelerate SQL/Excel analysis, automate discovery, and presented GenAI best practices to 100+ attendees.</li>
-                        <li>Mentored 4 junior PMs, established myself as the floor’s SME for embedded earn qualification and loyalty banking, and was selected by a Senior VP to independently lead Cash Rebate qualification.</li>
+                        <li>Mentored 4 junior PMs, established myself as the floor’s SME for embedded earn qualification and loyalty banking, and was selected by a Senior VP to independently lead Cash Rebate qualification and bank modernization.</li>
+                        <li>Received multiple senior-leadership shoutouts; work gained visibility up to the CEO during the enterprise-scale digital transformation.</li>
                     </ul>
                 </div>
-                <div class="bowler"><div class="body"></div></div>
                 <div class="ground"><div class="pitch"></div></div>
             </section>
 
@@ -194,7 +212,6 @@
                         <li>Improved SDK/API onboarding by revamping developer documentation; collaborated with Sales/Field teams to influence enterprise deals.</li>
                     </ul>
                 </div>
-                <div class="bowler"><div class="body"></div></div>
                 <div class="ground"><div class="pitch"></div></div>
             </section>
 
@@ -204,11 +221,12 @@
                 <span class="date">Nov 2019 - April 2021 | Sr. Associate PM</span>
                 <div class="card">
                     <ul>
+                        <li>Senior Associate Product Manager, Loyalty APIs, Oct 2020 – Apr 2021</li>
+                        <li>Associate Product Manager, Loyalty APIs, Nov 2019 – Oct 2020</li>
                         <li>Delivered 20+ internal and external-facing APIs, ensuring 99.9999% uptime; improved internal developer NPS by 10%.</li>
                         <li>Spearheaded Postman-first testing, API lifecycle processes, and feedback programs to improve reliability and developer experience.</li>
                     </ul>
                 </div>
-                <div class="bowler"><div class="body"></div></div>
                 <div class="ground"><div class="pitch"></div></div>
             </section>
 
@@ -222,7 +240,6 @@
                         <li>Built C#/.NET full-stack tools used by 100s of warehouse employees, automating workflows and improving efficiency.</li>
                     </ul>
                 </div>
-                <div class="bowler"><div class="body"></div></div>
                 <div class="ground"><div class="pitch"></div></div>
             </section>
 
@@ -236,14 +253,13 @@
                         <li>Enhanced Java code quality, reducing technical debt and enabling faster incident resolution.</li>
                     </ul>
                 </div>
-                <div class="bowler"><div class="body"></div></div>
                 <div class="ground"><div class="pitch"></div></div>
             </section>
 
             <!-- LVL 7: CONTACT -->
             <section class="level">
                 <h1>MATCH COMPLETE</h1>
-                <div class="card">
+                <div class="card" style="border-color:#000;">
                     <h2>ALI MUHAMMAD RAFIQ</h2>
                     <p><strong>EDUCATION:</strong> B.S. in Computer Science, Arizona State University</p>
                     <p><strong>PHONE:</strong> (650) 666 9844</p>
@@ -259,7 +275,7 @@
         const world = document.getElementById('world');
         const scoreboard = document.getElementById('scoreboard');
         const ball = document.getElementById('cricket-ball');
-        const bat = document.getElementById('bat');
+        const playerSprite = document.getElementById('player-sprite');
         const victoryMsg = document.getElementById('victory-msg');
         
         let runs = 0;
@@ -272,53 +288,58 @@
 
             const currentLevel = Math.floor(scrollPercent * 7);
 
+            // Bowling delivery when entering a new section
             if (currentLevel > lastLevel && currentLevel < 6) {
-                playDelivery();
+                bowlBall();
                 lastLevel = currentLevel;
             }
 
+            // Victory state at 95% scroll
             if (scrollPercent > 0.95) {
+                playerSprite.classList.add('victory');
                 victoryMsg.style.display = 'block';
             } else {
+                playerSprite.classList.remove('victory');
                 victoryMsg.style.display = 'none';
             }
         });
 
-        function playDelivery() {
+        function bowlBall() {
             ball.style.display = 'block';
-            const startX = window.innerWidth - 150;
+            const startX = window.innerWidth + 50;
             const startY = window.innerHeight - 150;
-            const batsmanX = 180;
-            const batsmanY = window.innerHeight - 130;
+            const hitPointX = 180;
+            const hitPointY = window.innerHeight - 130;
 
-            // 1. Bowler delivers ball (Right to Left)
+            // Delivery animation
             const delivery = ball.animate([
                 { left: `${startX}px`, top: `${startY}px` },
-                { left: `${batsmanX}px`, top: `${batsmanY}px` }
-            ], { duration: 600, easing: 'linear' });
+                { left: `${hitPointX}px`, top: `${hitPointY}px` }
+            ], { duration: 500, easing: 'linear' });
 
             delivery.onfinish = () => {
-                // 2. Batsman Swings
-                bat.classList.add('swing');
-                setTimeout(() => bat.classList.remove('swing'), 300);
+                // Swing Bat
+                playerSprite.classList.add('swing');
+                setTimeout(() => playerSprite.classList.remove('swing'), 300);
 
-                // 3. Ball flies off (Left to Right High)
+                // Hit Ball for Runs
                 const hitRuns = Math.random() > 0.5 ? 6 : 4;
                 runs += hitRuns;
-                updateScore();
+                updateScoreboard();
 
+                // Ball flies off to boundaries
                 ball.animate([
-                    { left: `${batsmanX}px`, top: `${batsmanY}px` },
-                    { left: `${window.innerWidth + 200}px`, top: `-200px` }
-                ], { duration: 800, easing: 'ease-out' }).onfinish = () => {
+                    { left: `${hitPointX}px`, top: `${hitPointY}px` },
+                    { left: `${window.innerWidth + 500}px`, top: `-300px` }
+                ], { duration: 700, easing: 'ease-out' }).onfinish = () => {
                     ball.style.display = 'none';
                 };
             };
         }
 
-        function updateScore() {
+        function updateScoreboard() {
             const req = Math.max(0, target - runs);
-            scoreboard.innerHTML = `RUNS: ${runs}<br>TARGET: ${target}<br>REQ: ${req}`;
+            scoreboard.innerHTML = `RUNS: ${runs}<br>TARGET: ${target}<br>NEED: ${req}`;
         }
     </script>
 </body>
